@@ -95,9 +95,7 @@ Source: <https://github.com/Kirin650Townace/SDPhotoViewer-apps-WIndows>
 
 | 項目 | 内容 |
 | --- | --- |
-| OS | Windows 10 / 11（ほか macOS・Linux でも動作します） |
-| Python | 3.10 以降（3.13 で動作確認）。**exe 化は 3.10.1 以降を推奨**（3.10.0 は下記の不具合を自動回避） |
-| 必須ライブラリ | PySide6、PySide6-Fluent-Widgets、Pillow |
+| OS | Windows 10 / 11 |
 
 ---
 
@@ -105,18 +103,6 @@ Source: <https://github.com/Kirin650Townace/SDPhotoViewer-apps-WIndows>
 
 Releaseから最新バージョンのZipフォルダをダウンロード・解凍し、「SDPhotoViewer.exe」を実行してください。
 解凍したフォルダを任意の場所に移動させることもできます。
-
-| 場所 | 何か | 使う？ |
-| --- | --- | --- |
-| `dist\SDフォトビューア\SDフォトビューア.exe` | **アプリ本体（黒い画面なし）** | **これを使います** |
-| `dist\SDフォトビューア\_internal` | 必要なライブラリ | 消さないでください |
-| `build\…` | ビルドの作業ファイル | 使いません（開く必要もありません） |
-| `dist\SDフォトビューア（デバッグ）` | `--console` を付けた調査用 | 通常版を作ると自動で削除されます |
-
-> ビルドがうまくいかないときだけ、調査用の `python tools\build_exe.py --console` を使ってください。
-> このときは `dist\SDフォトビューア（デバッグ）\` に出力され、通常版は上書きされません。
-
-`dist\SDフォトビューア` フォルダには次のものが入ります。フォルダごと渡してください。
 
 | ファイル | 内容 |
 | --- | --- |
@@ -127,26 +113,6 @@ Releaseから最新バージョンのZipフォルダをダウンロード・解�
 
 起動しないときは `ログを保存.txt` の手順に従ってください。exe と同じフォルダに
 `SDPhotoViewer.log` ができていれば原因が書かれています。
-
-デスクトップから起動したいときは **`ショートカットを作る.bat`** をダブルクリックすると、
-アイコン付きのショートカットが作られます（`dist` フォルダは移動・削除しないでください）。
-
-> **黒い画面（コンソール）について**
-> 普段使い・配布用は `build_windows.bat`（`--console` なし）でビルドしてください。黒い画面は出ません。
-> `--console` を付けて作った調査用の exe は、**ダブルクリックで起動したときは黒い画面を自動で隠します**
-> （ターミナルから実行したときだけ、エラーが見えるようにその画面を残します）。
-> 調査用の出力名は、通常の exe を上書きしないよう `SDフォトビューア（デバッグ）.exe` になります。
->
-> 起動すると、exe と同じフォルダの `SDPhotoViewer.log` に
-> 「どのファイルから起動したか」（`起動: C:\...\SDフォトビューア.exe / 実行形式=exe`）が記録されます。
-> 黒い画面が出る／起動しないときは、この 1 行を見てもらえれば原因の切り分けができます。
-
-アイコンを変えたい場合は `assets/app.ico` を差し替えてからビルドし直してください
-（`assets/` が無い場合は `python tools/make_icon.py` で生成できます）。
-
-> ビルドし直してもエクスプローラーのアイコンが古いままのときは、
-> Windows がアイコンをキャッシュしているためです。フォルダごと別の場所へ移動する、
-> 名前を変える、または再起動すると新しいアイコンに更新されます。
 
 ---
 
@@ -206,7 +172,7 @@ RAW は埋め込みプレビューを優先して高速に表示します（現�
 
 ---
 
-## ファイル構成
+## 開発・デバッグ時のファイル構成
 
 ```
 sd-photo-viewer/
@@ -362,77 +328,6 @@ python tools/screenshot.py
 
 ---
 
-## 公開（配布）について
-
-このアプリは **GPLv3 で公開する前提** で作っています（同梱ライブラリに GPL のものが含まれるため）。
-作者情報（名前・連絡先）とソースコードの公開先は記入済みです。
-ソースを置く場所を変えたときは、`sdphotoviewer/__init__.py` の `SOURCE_URL` を書き換えてください。
-
-### 作者情報（記入済み）
-
-| 項目 | 値 | 入っている場所 |
-| --- | --- | --- |
-| 名前 | よづき | `sdphotoviewer/__init__.py`（`COPYRIGHT_HOLDER`）／`app.py`／`はじめにお読みください.md` |
-| 連絡先 | X (Twitter) [@YoZKi_VRC](https://www.twitter.com/YoZKi_VRC) | `sdphotoviewer/__init__.py`（`CONTACT` / `CONTACT_URL`）／`はじめにお読みください.md` |
-| ソースコード | <https://github.com/Kirin650Townace/SDPhotoViewer-apps-WIndows> | `sdphotoviewer/__init__.py` の `SOURCE_URL`（アプリの「アプリについて」と `はじめにお読みください.md` に反映） |
-
-> アプリの「アプリについて」に公開先が表示され、「ソースコードを開く」ボタンからブラウザで開けます。
-
-### 配布するときの名前
-
-- 配布物（ZIP）の名前は `SDフォトビューア_v1.0_windows.zip` のように、バージョンを入れると分かりやすいです
-- アプリ内のバージョン表示は `sdphotoviewer/__init__.py` の `__version__` です（今は `1.0`）
-  - 次に更新するときは、`__version__` と配布物の名前を一緒に上げてください（例: `1.0.1`）
-- フォルダの中に入る利用者向けの説明は **`はじめにお読みください.md`** です。
-  文面を直したいときはこのファイルを編集してください（ビルド時に `dist` へ自動で入ります。
-  `.txt` 版も一緒に入ります）
-
-### リポジトリに上げるファイル（46 個）
-
-ブラウザで GitHub のリポジトリを開き、**「Add file」→「Upload files」** に
-下の表の「上げる」を**フォルダごとドラッグ＆ドロップ**すればOKです（git コマンドは不要）。
-
-| 上げる | 中身 |
-| --- | --- |
-| `app.py` | 起動スクリプト |
-| `sdphotoviewer/`（14 ファイル） | アプリ本体 |
-| `tools/`（9 ファイル） | ビルド・テスト・サンプル作成・配布 ZIP 作成の道具 |
-| `assets/`（2 ファイル） | アプリアイコン |
-| `docs/`（7 ファイル） | スクリーンショット（README に表示されます） |
-| `licenses/`（2 ファイル） | GPLv3 / LGPLv3 の正文 |
-| `README.md` / `使い方.md` / `はじめにお読みください.md` | 説明書 |
-| `LICENSE` / `THIRD_PARTY_LICENSES.md` | このアプリと同梱ライブラリのライセンス |
-| `requirements.txt` / `build_windows.bat` / `run_windows.bat` / `ショートカットを作る.bat` / `配布用ZIPを作る.bat` / `.gitignore` | セットアップ・ビルド・配布用（直下の 6 ファイル） |
-
-| 上げない | 理由 |
-| --- | --- |
-| `dist/` `build/` `*.spec` | ビルドの成果物・作業用（各 PC で作れる。配布は Releases へ） |
-| `__pycache__/` `SDPhotoViewer.log` | 実行時にできるもの |
-| `sample_sd/`（45 ファイル） | `python tools/make_sample_sd.py` で作り直せるダミー写真（リポジトリを軽く保つため） |
-
-> 一度に 100 ファイルまでアップロードできます。上記は 46 ファイルなので 1 回で入ります。
-> `docs/` を忘れると README の画像が表示されません。
-
-### GitHub で公開する手順（例）
-
-1. リポジトリを作り、上の「上げる」を置く
-2. リポジトリの「About」で License を **GPL-3.0** に設定する（済み）
-3. `配布用ZIPを作る.bat` で作った `SDフォトビューア_v1.0_windows.zip` を **Releases** に添付する
-4. 受け取った人がソースを入手してビルドできるよう、この README の手順を公開しておく
-
-### 配布物に必ず入るもの（ビルド時に自動で入ります）
-
-`dist/SDフォトビューア/` … `LICENSE`（GPLv3 正文）／`licenses/`（GPLv3・LGPLv3・
-Pillow・numpy・imageio-ffmpeg・pillow-heif の各ライセンス文と一覧）／`THIRD_PARTY_LICENSES.md`
-
-### 気をつけること
-
-- 実際の写真（人物・位置情報）が入ったスクリーンショットは公開しないでください
-- 「追加の制限」を課さない（GPLv3 で認められている使い方を妨げない）でください
-- ソースを公開していること・無保証であることを、README などで伝えてください
-
----
-
 ## ライセンス
 
 このアプリ（SD フォトビューア）は **GNU General Public License v3.0（GPLv3）** で公開しています。
@@ -450,6 +345,3 @@ Copyright (C) 2026 よづき（X: [@YoZKi_VRC](https://www.twitter.com/YoZKi_VRC
 | 同梱の ffmpeg（動画サムネイル用） | GPLv3 |
 | Pillow / numpy / imageio-ffmpeg | MIT-CMU / BSD / BSD-2 |
 | PyInstaller（exe 作成の道具） | GPL-2.0+ ブートローダ例外（**作った exe は GPL にならない**） |
-
-ビルドすると `dist/SDフォトビューア/licenses/` にライセンス文一式が自動で入ります。
-そのフォルダごと配布してください。GPLv3・LGPLv3・各ライブラリの正文は `licenses/` に置いてあります。
