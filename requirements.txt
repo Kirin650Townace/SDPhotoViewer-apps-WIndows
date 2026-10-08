@@ -1,0 +1,15 @@
+# 必須
+PySide6>=6.6
+PySide6-Fluent-Widgets>=1.5
+Pillow>=10.0
+
+# HEIC / HEIF（キヤノンの HIF、iPhone の HEIC）を表示する場合
+pillow-heif>=0.15
+
+# RAW（CR3 / NEF / ARW など）のプレビューと現像表示を使う場合
+rawpy>=0.19
+numpy>=1.24
+
+# 動画（MP4 / MOV など）のサムネイル表示
+# ffmpeg 本体を同梱しているため、別途インストールは不要です
+imageio-ffmpeg>=0.4.9
